@@ -61,7 +61,7 @@ const signin = (dispatch) => {
 			const response = await trackerApi.post("/signin", { email, password });
 			await AsyncStorage.setItem("token", response.data.token);
 			dispatch({ type: "signin", payload: response.data.token });
-			// navigate("Signin");
+			navigate("Home");
 			//navigate to other screen
 		} catch (err) {
 			console.log(err.message);

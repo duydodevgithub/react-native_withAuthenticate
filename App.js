@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
+import HomeScreen from "./src/screens/HomeScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
 import AccountScreen from "./src/screens/AccountScreen";
@@ -57,10 +58,15 @@ const AppStackScreens = () => {
 const Stack = createStackNavigator();
 const StackScreens = () => {
 	return (
-		<Stack.Navigator initialRouteName="ResolveAuthScreen">
+		<Stack.Navigator initialRouteName="Home">
 			<Stack.Screen
 				name="ResolveAuthScreen"
 				component={ResolveAuthScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Home"
+				component={HomeScreen}
 				options={{ headerShown: false }}
 			/>
 			<Stack.Screen name="Signin" component={SigninScreen} />
