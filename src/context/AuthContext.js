@@ -1,7 +1,7 @@
 import createDataContext from "./createDataContext";
 import trackerApi from "../api/tracker";
 import AsyncStorage from "@react-native-community/async-storage";
-import { navigate } from "../RootNavigation.js";
+import { navigate, navigationRef } from "../RootNavigation.js";
 
 const authReducer = (state, action) => {
 	switch (action.type) {
@@ -11,6 +11,8 @@ const authReducer = (state, action) => {
 			return { errorMessage: "", token: action.payload };
 		case "signin":
 			return { errorMessage: "", token: action.payload };
+		case "signout":
+			return { errorMessage: "", token: null };
 		case "clear_error_message":
 			return { ...state, errorMessage: "" };
 		default:
@@ -74,11 +76,23 @@ const signin = (dispatch) => {
 };
 
 const signout = (dispatch) => {
-	return ({ email, password }) => {};
+	return async () => {
+		try {
+			await AsyncStorage.removeItem("token");
+			dispatch({ type: "signout" });
+			navigate("Home");
+		} catch (err) {
+			console.log(err.message);
+			dispatch({
+				type: "add_error",
+				payload: "Something went wrong with SignOut",
+			});
+		}
+	};
 };
 
 export const { Provider, Context } = createDataContext(
 	authReducer,
-	{ signin, signout, signup, clearErrorMessage, tryLocalSignin },
+	{ signin, signout, signup, signout, clearErrorMessage, tryLocalSignin },
 	{ token: null, errorMessage: "" }
 );
